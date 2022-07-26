@@ -37,12 +37,6 @@ public class ApplicationSecurityConfig {
     @Value("${jwt.key.private}")
     RSAPrivateKey priv;
 
-    private final UserService userService;
-
-    public ApplicationSecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // Enable CORS and disable CSRF
@@ -66,8 +60,7 @@ public class ApplicationSecurityConfig {
             .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
             .exceptionHandling((exceptions) -> exceptions
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-            .authenticationProvider(authenticationProvider());
+                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler()));
         // @formatter:on
         return http.build();
     }
@@ -75,16 +68,6 @@ public class ApplicationSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/h2-console/**");
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
     }
 
     @Bean
