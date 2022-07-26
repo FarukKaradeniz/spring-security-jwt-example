@@ -9,3 +9,9 @@ spring:
       enabled: true
   application:
     name: jwt-token-example
+
+
+jwt:
+  key:
+    private: classpath:app.key
+    public: classpath:app.pub
