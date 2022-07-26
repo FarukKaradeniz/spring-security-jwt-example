@@ -1,7 +1,6 @@
 package com.farukkaradeniz.jwttokenexample.controller;
 
 import com.farukkaradeniz.jwttokenexample.dto.User;
-import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,7 @@ public class UserController {
 
         var auth = SecurityContextHolder.getContext().getAuthentication();
 
-        System.out.println(auth);
+        System.out.println(auth.getName());
         return ResponseEntity.ok()
                 .build();
     }

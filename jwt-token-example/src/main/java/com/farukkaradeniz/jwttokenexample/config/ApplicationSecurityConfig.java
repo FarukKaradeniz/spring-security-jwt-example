@@ -47,7 +47,7 @@ public class ApplicationSecurityConfig {
                 .and();
 
         // Set permissions on endpoints
-        http.authorizeRequests()
+        http.authorizeHttpRequests()
                 // Our public endpoints
                 .antMatchers("/login", "/h2-console/**").permitAll()
                 // Our private endpoints
