@@ -1,5 +1,6 @@
 package com.farukkaradeniz.jwttokenexample.service;
 
+import com.farukkaradeniz.jwttokenexample.dto.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -38,7 +39,7 @@ public class AuthService {
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(username)
-                .claim("roles", "USER,ADMIN,GOD")
+                .claim("scope", user.getRoles().stream().map(Role::getName).toList())
                 .claim("omer", "test")
                 .claim("address", user.getAddress())
                 .build();

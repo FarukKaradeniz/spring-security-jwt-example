@@ -4,7 +4,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class JwtUtil {
     }
 
     public static List<String> getRoles() {
-        return Arrays.stream(((String) getClaims().getOrDefault("roles", "")).split(",")).toList();
+        return (List<String>) getClaims().getOrDefault("scope", List.of());
     }
 
     public static Instant getExpireDate() {

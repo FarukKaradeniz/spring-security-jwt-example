@@ -1,8 +1,8 @@
 package com.farukkaradeniz.jwttokenexample.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -14,11 +14,18 @@ public class User {
     private String password;
     private String address;
 
-    public User(String username, String password, String address) {
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "MY_user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public User(String username, String password, String address, Set<Role> roles) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.address = address;
+        this.roles = roles;
     }
 
     public User() {
@@ -65,5 +72,13 @@ public class User {
                 ", password='" + password + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
